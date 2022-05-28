@@ -1,0 +1,79 @@
+{% extends 'base.html' %}
+{% block content %}
+<style>
+    body {
+        font-family: "Roboto", sans-serif;
+        font-size: 18px;
+        background-color: #fdfdfd;
+    }
+
+    .head_text {
+        color: white;
+    }
+
+    .card {
+        box-shadow: 0 16px 48px #E3E7EB;
+    }
+</style>
+<header class="masthead">
+    <div class="overlay"></div>
+    <div class="container">
+        <div class="row">
+            <div class=" col-md-8 col-md-10 mx-auto">
+                <div class="site-heading">
+                    <h3 class=" site-heading my-4 mt-3 text-white"> Tạo bài viết mới </h3>
+                    <!-- <p class="text-light">Chia sẻ câu truyện của bạn tại đây! &nbsp </p> -->
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+<div class="shadow p-3 container mt-5 mb-5">
+    <div class="mb-3 row">
+        <form class="needs-validation" method="post" action="{% url 'create_post' %}" novalidate>
+            {% csrf_token %}
+            <div class="form-floating mb-3">
+                <input type="text" class="form-control" id="title" name="title" placeholder="Tiêu đề" required>
+                <label for="title">Tiêu đề</label>
+                <div class="invalid-feedback">
+                    Tiêu đề không được để trống
+                  </div>
+            </div>
+            <div class="form-floating mb-3">
+                <textarea class="form-control" id="content" name="content" placeholder="Nội dung bài viết" required></textarea>
+                <label for="content">Nội dung</label>
+                <div class="invalid-feedback">
+                    Nội dung bài viết không được để trống
+                  </div>
+            </div>
+            <div class="form-floating mb-3">
+                <select class="form-select" id="status" name="status">
+                    <option value="0">Draft</option>
+                    <option value="1">Publish</option>
+                </select>
+                <label for="status">Trạng thái bài đăng</label>
+            </div>
+            <button type="submit" class="btn btn-primary btn-lg">Lưu bài viết</button>
+        </form>
+    </div>
+</div>
+<script>
+    (function () {
+      'use strict'
+    
+      // Fetch all the forms we want to apply custom Bootstrap validation styles to
+      var forms = document.querySelectorAll('.needs-validation')
+      // Loop over them and prevent submission
+      Array.prototype.slice.call(forms)
+        .forEach(function (form) {
+          form.addEventListener('submit', function (event) {
+            if (!form.checkValidity()) {
+              event.preventDefault()
+              event.stopPropagation()
+            }
+            form.classList.add('was-validated')
+          }, false)
+        })
+    })()
+</script>
+{% endblock %}

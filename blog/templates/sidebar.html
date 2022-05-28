@@ -1,0 +1,29 @@
+{% block sidebar %}
+
+    <style>
+            .card{
+                box-shadow: 0 16px 48px #E3E7EB;
+            }
+
+    </style>
+
+    <!-- Sidebar Widgets Column -->
+    <div class="col-md-4 float-right ">
+    <div class="card my-4">
+        {% if request.user.is_authenticated %}
+        <h5 class="card-header">Thông báo</h5>
+        {% else %}
+        <h5 class="card-header">Giới thiệu trang blog</h5>
+        {% endif %}
+        <div class="card-body">
+            {% if request.user.is_authenticated %}
+            <p class="card-text">Xin chào <strong>{{ request.user.get_username }}</strong></p>
+            {% else %}
+            <p class="card-text">Để có thể tham gia, hãy đăng ký tài khoản</p>
+            <a href="{% url 'register_form' %}" class="btn btn-danger">Đăng ký ngay!</a>
+            {% endif %}
+        </div>
+    </div>
+    </div>
+
+{% endblock sidebar %}

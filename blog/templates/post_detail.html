@@ -1,0 +1,131 @@
+{% extends 'base.html' %} {% block content %}
+
+<style>
+  .form-floating > .form-control:not(:-moz-placeholder-shown) ~ label {
+    opacity: 1;
+    color: rgba(0, 0, 0, 0.5);
+    background-color: #fff;
+    height: auto;
+    padding: 0px;
+    padding: 0px 0px 0px 10px;
+    width: 100%;
+    transform: scale(0.982) translateY(0.045rem) translateX(0.1rem);
+    border-radius: 5px 0 0 0;
+}
+.form-floating > .form-control:focus ~ label,
+.form-floating > .form-control:not(:placeholder-shown) ~ label,
+.form-floating > .form-select ~ label {
+    opacity: 1;
+    color: rgba(0, 0, 0, 0.5);
+    background-color: #fff;
+    height: auto;
+    padding: 0px 0px 0px 10px;
+    width: 100%;
+    transform: scale(0.982) translateY(0.045rem) translateX(0.1rem);
+    border-radius: 5px 0 0 0;
+}
+.form-floating > .form-control:-webkit-autofill ~ label {
+    opacity: 1;
+    color: rgba(0, 0, 0, 0.5);
+    background-color: #fff;
+    height: auto;
+    padding: 0px;
+    padding: 0px 0px 0px 10px;
+    width: 100%;
+    transform: scale(0.982) translateY(0.045rem) translateX(0.1rem);
+    border-radius: 5px 0 0 0;
+}
+</style>
+<div class="p-3 container">
+  <div class="row">
+    <div class="card mx-auto mt-5 mb-5 shadow-sm left top">
+      <div class="card-body">
+        {% if request.user.is_superuser or request.user == post.author %}
+        <div class="mb-4">
+          <a href="{% url 'edit_detail' post.slug %}" class="btn btn-primary">Chỉnh sửa bài viết</a>
+          <a href="{% url 'delete_post' post.slug %}" class="btn btn-danger">Xóa bài viết</a>
+        </div>
+        {% endif %}
+        <h1>{% block title %} {{ post.title }} {% endblock title %}</h1>
+        <p class=" text-muted">{{ post.author }} | {{ post.created_on }}</p>
+        <p class="card-text ">{{ post.content | safe }}</p>
+      </div>
+    </div>
+  </div>
+  
+  <div class="card shadow-sm mx-auto mb-4 mt-3 ">
+    <div class="card-body">
+      {% if request.user.is_authenticated %}
+      <div class="mb-3">
+        <h3>Để lại bình luận</h3>
+      </div>
+      <form method="post" action="{% url 'post_detail' post.slug %}" class="needs-validation" novalidate>
+        <div class="form-floating mb-3">
+          <textarea class="form-control" id="comment" name="comment" placeholder="Bình luận..." required style="height: 100px;"></textarea>
+          <label for="comment">Nội dung bình luận...</label>
+          <div class="invalid-feedback">Nội dung bình luận không được để trống</div>
+        </div>
+        {% csrf_token %}
+        <button type="submit" class="btn btn-primary  btn-lg">Bình luận</button>
+      </form>
+      {% else %}
+      <h3>Đăng nhập ngay để có thể bình luận</h3>
+      <a href="{% url 'login_form' %}" class="btn btn-primary">Đăng nhập</a>
+      {% endif %}
+    </div>
+
+  </div>
+  <div class="card mx-auto mb-4 mt-3 shadow-sm">
+    <div class="card-body">
+      <h2>{{ comments.count }} bình luận</h2>
+    </div>
+  </div>
+  {% for comment in comments %}
+  <div class="card mx-auto mb-4 mt-3 shadow-sm">
+    <h4 class="card-header">
+      {{ comment.name }}
+    </h4>
+    <div class="card-body">
+      <!-- comments -->
+      <div class="comments">
+        <!-- <p class="font-weight-bold">
+          {{ comment.name }}
+          <span class=" text-muted font-weight-normal">
+            {{ comment.created_on }}
+          </span>
+        </p> -->
+        {{ comment.body | linebreaks }}
+      </div>
+      {% if request.user.is_superuser or comment.name == request.user.username %}
+      <a href="{% url 'edit_comment' post.slug comment.id %}" class="btn btn-primary">Chỉnh sửa bình luận</a>
+      <a href="{% url 'delete_comment' post.slug comment.id %}" class="btn btn-danger right">Xóa bình luận</a>
+      {% endif %}
+    </div>
+    <div class="card-footer">
+        {{ comment.created_on }}
+    </div>
+  </div>
+  {% endfor %}
+</div>
+</div>
+</div>
+<script>
+  (function () {
+    'use strict'
+  
+    // Fetch all the forms we want to apply custom Bootstrap validation styles to
+    var forms = document.querySelectorAll('.needs-validation')
+    // Loop over them and prevent submission
+    Array.prototype.slice.call(forms)
+      .forEach(function (form) {
+        form.addEventListener('submit', function (event) {
+          if (!form.checkValidity()) {
+            event.preventDefault()
+            event.stopPropagation()
+          }
+          form.classList.add('was-validated')
+        }, false)
+      })
+  })()
+</script>
+{% endblock content %}

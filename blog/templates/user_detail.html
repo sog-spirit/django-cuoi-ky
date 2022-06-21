@@ -1,0 +1,59 @@
+{% extends "base.html" %}
+{% block content %}
+<style>
+    body {
+        font-family: "Roboto", sans-serif;
+        font-size: 18px;
+        background-color: #fdfdfd;
+    }
+
+    .head_text {
+        color: white;
+    }
+
+    .card {
+        box-shadow: 0 16px 48px #E3E7EB;
+    }
+</style>
+<header class="masthead">
+    <div class="overlay"></div>
+    <div class="container">
+        <div class="row">
+            <div class=" col-md-8 col-md-10 mx-auto">
+                <div class="site-heading">
+                    <h3 class=" site-heading my-4 mt-3 text-white"> Chào mừng đến blogspot </h3>
+                    <p class="text-light">Chia sẻ câu truyện của bạn tại đây! &nbsp </p>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+<div class="shadow p-3 container mt-5 mb-5">
+    <div class="mb-3 row">
+        <label for="username" class="col-sm-2 col-form-label">Tên người dùng</label>
+        <div class="col-sm-10">
+            <input type="text" readonly class="form-control-plaintext" id="username" value="{{ username }}">
+        </div>
+
+        <label for="date_joined" class="col-sm-2 col-form-label">Ngày tạo tài khoản</label>
+        <div class="col-sm-10">
+            <input type="text" readonly class="form-control-plaintext" id="date_joined" value="{{ date_joined }}">
+        </div>
+
+        <label for="number_of_posts" class="col-sm-2 col-form-label">Số bài đã đăng</label>
+        <div class="col-sm-10">
+            <input type="text" readonly class="form-control-plaintext" id="number_of_posts" value="{{ number_of_posts }}">
+        </div>
+
+        <label for="number_of_commented" class="col-sm-2 col-form-label">Số lượt được bình luận</label>
+        <div class="col-sm-10">
+            <input type="text" readonly class="form-control-plaintext" id="number_of_commented" value="{{ number_of_commented }} lần">
+        </div>
+
+        <label for="number_of_comments" class="col-sm-2 col-form-label">Số lượt bình luận</label>
+        <div class="col-sm-10">
+            <input type="text" readonly class="form-control-plaintext" id="number_of_comments" value="{{ number_of_comments }} lần">
+        </div>
+    </div>
+</div>
+{% endblock %}
